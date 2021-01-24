@@ -1,0 +1,113 @@
+1. Get All contacts
+	method : GET
+	url : http://127.0.0.1:8000/api/contacts
+	response:
+		[
+			{
+				"id": 1,
+				"first_name": "Apou",
+				"last_name": "Datta",
+				"email": "apoudatto6@gmail.com",
+				"job_title": "Software Engineer",
+				"city": "Dhaka",
+				"country": "Bangladesh",
+				"created_at": "2020-12-12T05:54:17.000000Z",
+				"updated_at": "2020-12-12T05:54:17.000000Z"
+			},
+			.........
+		]
+		
+2. Create a contact
+	method : POST
+	url : http://127.0.0.1:8000/api/contacts
+	header : 
+		Content-Type: application/json
+	request:
+		{
+			"first_name" : "api apou",
+			"last_name" : "api last",
+			"email" : "api@gmail.com",
+			"job_title" : "DC",
+			"city" : "CTG",
+			"country" : "BD"
+		}
+	
+	response:
+		[
+			{
+				"id": 1,
+				"first_name": "Apou",
+				"last_name": "Datta",
+				"email": "apoudatto6@gmail.com",
+				"job_title": "Software Engineer",
+				"city": "Dhaka",
+				"country": "Bangladesh",
+				"created_at": "2020-12-12T05:54:17.000000Z",
+				"updated_at": "2020-12-12T05:54:17.000000Z"
+			},
+			.........
+		]
+		
+3. Get a contact
+	method : GET
+	url : http://127.0.0.1:8000/api/contacts/3
+	response:
+		{
+			"id": 3,
+			"first_name": "api apou",
+			"last_name": "api last",
+			"email": "api@gmail.com",
+			"job_title": "DC",
+			"city": "CTG",
+			"country": "BD",
+			"created_at": "2020-12-12T06:50:42.000000Z",
+			"updated_at": "2020-12-12T06:50:42.000000Z"
+		}
+		
+4. Update a contact
+	method : PUT
+	url : http://127.0.0.1:8000/api/contacts/3
+	header : 
+		Content-Type: application/json
+	request:
+		{
+			"first_name": "updated id 3",
+			"last_name": "api last",
+			"email": "api@gmail.com",
+			"job_title": "DC",
+			"city": "CTG",
+			"country": "BD"
+		}
+	
+	response:
+		{
+			"id": 3,
+			"first_name": "updated id 3",
+			"last_name": "api last",
+			"email": "api@gmail.com",
+			"job_title": "DC",
+			"city": "CTG",
+			"country": "BD",
+			"created_at": "2020-12-12T06:50:42.000000Z",
+			"updated_at": "2020-12-12T07:33:11.000000Z"
+		}
+		
+5. Get a contact
+	method : DELETE
+	url : http://127.0.0.1:8000/api/contacts/5
+	response:
+		{
+			"id": 5,
+			"first_name": "api apou",
+			"last_name": "api last",
+			"email": "api@gmail.com",
+			"job_title": "DC",
+			"city": "CTG",
+			"country": "BD",
+			"created_at": "2020-12-12T06:50:42.000000Z",
+			"updated_at": "2020-12-12T06:50:42.000000Z"
+		}
+		
+		
+		
+		
