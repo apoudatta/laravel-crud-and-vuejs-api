@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>vue axios</title>
+
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">Page 1</a></li>
+      <li><a href="#">Page 2</a></li>
+      <li><a href="#">Page 3</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="contact" class="container">
+	<div class="panel panel-default col-md-12">
+	  <div class="panel-heading">List
+		<!-- Button trigger modal -->
+		<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#insertModal">Add</button>
+	  </div>
+	  <div class="panel-body">
+	  	<table class="table">
+		    <thead>
+		      <tr>
+		        <th>SL</th>
+		        <th>First Name</th>
+				<th>Email</th>
+				<th>Job Title</th>
+				<th>City</th>
+				<th>Country</th>
+				<th>Action</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr v-for="(contact, index) in contacts" :key="contact.id">
+				<td>{{ index + 1 }}</td>
+				<td>{{ contact.first_name }} {{ contact.last_name }}</td>
+				<td>{{ contact.email }}</td>
+				<td>{{ contact.job_title }}</td>
+				<td>{{ contact.city }}</td>
+				<td>{{ contact.country }}</td>
+				<td>
+					<button v-on:click="editData(contact.id)" class="btn btn-info btn-xs" data-toggle="modal" data-target="#editModal">Edit</button>
+					<button v-on:click="deleteData(contact.id)" class="btn btn-danger btn-xs">Delete</button>
+				</td>
+			  </tr>
+		    </tbody>
+		</table>
+	  </div>
+	</div>
+
+	<!--Insert Modal -->
+	<div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel"><b>Form</b>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	        </h5>
+	      </div>
+	      <div class="modal-body">
+
+	        <div class="row">
+			    <div class="form-group col-md-6">
+			      <label>First Name:</label>
+			      <input type="text" class="form-control"  v-model="first_name" placeholder="Enter name">
+			    </div>
+			    <div class="form-group col-md-6">
+			      <label>Last Name:</label>
+			      <input type="text" class="form-control"  v-model="last_name" placeholder="Enter last name">
+			    </div>
+		    </div>
+		    <div class="row">
+			    <div class="form-group col-md-6">
+			      <label>Email:</label>
+			      <input type="text" class="form-control"  v-model="email" placeholder="Enter email">
+			    </div>
+			    <div class="form-group col-md-6">
+			      <label>Job Title:</label>
+			      <input type="text" class="form-control"  v-model="job_title" placeholder="Enter job_title">
+			    </div>
+		    </div>
+		    <div class="row">
+			    <div class="form-group col-md-6">
+			      <label>City:</label>
+			      <input type="text" class="form-control"  v-model="city" placeholder="Enter city">
+			    </div>
+			    <div class="form-group col-md-6">
+			      <label>Country:</label>
+			      <select class="form-control" v-model="country">
+			      	<option value="Bangladesh">Bangladesh</option>
+			      	<option value="India">India</option>
+			      	<option value="USA">USA</option>
+			      </select>
+			    </div>
+		    </div>
+
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" v-on:click="addData" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!--Edit Modal -->
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel"><b>Form Edit</b>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	        </h5>
+	      </div>
+	      <div v-if="contactEditForm" class="modal-body">
+
+	        <div class="row">
+			    <div class="form-group col-md-6">
+			      <label>First Name:</label>
+			      <input type="text" class="form-control"  v-model="first_name" placeholder="Enter name">
+			    </div>
+			    <div class="form-group col-md-6">
+			      <label>Last Name:</label>
+			      <input type="text" class="form-control"  v-model="last_name" placeholder="Enter last name">
+			    </div>
+		    </div>
+		    <div class="row">
+			    <div class="form-group col-md-6">
+			      <label>Email:</label>
+			      <input type="text" class="form-control"  v-model="email" placeholder="Enter email">
+			    </div>
+			    <div class="form-group col-md-6">
+			      <label>Job Title:</label>
+			      <input type="text" class="form-control"  v-model="job_title" placeholder="Enter job_title">
+			    </div>
+		    </div>
+		    <div class="row">
+			    <div class="form-group col-md-6">
+			      <label>City:</label>
+			      <input type="text" class="form-control"  v-model="city" placeholder="Enter city">
+			    </div>
+			    <div class="form-group col-md-6">
+			      <label>Country:</label>
+			      <select class="form-control" v-model="country">
+			      	<option value="Bangladesh">Bangladesh</option>
+			      	<option value="India">India</option>
+			      	<option value="USA">USA</option>
+			      </select>
+			    </div>
+		    </div>
+
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" v-on:click="updateData(id)" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+  
+  
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+<script type="text/javascript">
+	var root = new Vue({
+		el: "#contact",
+		data: {
+			contactAddForm: false,
+			contactEditForm: false,
+			id:'',
+			first_name:'',
+			last_name:'',
+			email: '',
+			job_title: '',
+			city: '',
+			country: '',
+			contacts: []
+		},
+		created: function () {
+			this.getData()
+		},
+		methods: {
+			addData: function () {
+				axios.post('http://localhost/laravel/laravel_crud/api/contacts', {
+				    first_name: root.first_name,
+					last_name: root.last_name,
+					email: root.email,
+					job_title: root.job_title,
+					city: root.city,
+					country: root.country
+				  })
+				.then(function (response) {
+					root.contacts.push(response.data);
+					//console.log(response.data);
+					root.contactAddForm = false;
+				})
+				.catch(function (error) {
+					console.log('Error! Could not reach the API. ' + error);
+				})
+			},
+
+			getData: function () {
+				axios.get('http://localhost/laravel/laravel_crud/api/contacts')
+					.then(function(res) {
+						root.contacts = res.data.map((oneObj)=>oneObj)
+						//console.log(res.data.map((oneObj)=>oneObj))
+					})
+					.catch(function (error) {
+						console.log('Error! Could not reach the API. ' + error);
+					})
+			},
+			deleteData: function (id) {
+				axios.delete('http://localhost/laravel/laravel_crud/api/contacts/' + id)
+					.then(function(res) {
+						root.getData()
+					})
+					.catch(function (error) {
+						console.log('Error! Could not reach the API. ' + error)
+					})
+			},
+
+			editData: function (id) {
+				this.contactAddForm = false;
+				axios.get('http://localhost/laravel/laravel_crud/api/contacts/' + id)
+					.then(function(res) {
+						root.id = res.data.id;
+						root.first_name = res.data.first_name;
+						root.last_name = res.data.last_name;
+						root.email = res.data.email;
+						root.job_title = res.data.job_title;
+						root.city = res.data.city;
+						root.country = res.data.country;
+					})
+					.catch(function (error) {
+						console.log('Error! Could not reach the API. ' + error)
+					})
+				this.contactEditForm = true;
+			},
+			updateData: function (id) {
+				axios.put('http://localhost/laravel/laravel_crud/api/contacts/' + id, {
+				    first_name: root.first_name,
+					last_name: root.last_name,
+					email: root.email,
+					job_title: root.job_title,
+					city: root.city,
+					country: root.country
+				  })
+				.then(function (response) {
+					root.getData()
+					//console.log(response.data);
+					root.contactEditForm = false;
+				})
+				.catch(function (error) {
+					console.log('Error! Could not reach the API. ' + error);
+				})
+			}
+		}
+
+	})
+</script>
+</body>
+</html>
